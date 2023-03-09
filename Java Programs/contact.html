@@ -1,0 +1,59 @@
+<html>
+	<header>
+		<title>Contact</title>
+		<link rel="stylesheet" type="text/css" href="../Java Programs/contact.css">
+	</header>
+	<body>
+		<div class="main-container-contact">
+		<div class="container">
+			<div class="row">
+				<h1>Contact Form</h1>
+			</div>
+			<div class="row">
+				<div class="input-div">
+					<label for="firstname" class="input-label">First Name</label>
+					<input type="text" name="firstname"/>
+				</div>
+				<div class="input-div">
+					<label for="lastname" class="input-label">Last Name</label>
+					<input type="text" name="lastname"/>
+				</div>
+				<div class="input-div">
+					<label for="country" class="input-label">Country</label>
+					<select name="country">
+						<option id="1" value="india">India</option>
+						<option id="2" value="india">Canada</option>
+						<option id="2" value="india">Usa</option>
+					</select>
+				</div>
+				<div class="input-div" style="margin-right: 158px;">
+					<label for="gender" class="radio-inline input-label">Gender</label>
+					<label class="radio-inline">
+      					<input type="radio" name="gender" checked/>Male
+    				</label>
+    				<label class="radio-inline">
+      					<input type="radio" name="gender"/>Female
+    				</label>
+				</div>
+				<div class="input-div" style="margin-right: 73px;">
+					<label class="checkbox-inline input-label">Skills</label>
+					<label class="checkbox-inline">
+				      <input type="checkbox" value="java">Java
+				    </label>
+				    <label class="checkbox-inline">
+				      <input type="checkbox" value="python">Python
+				    </label>
+				     <label class="checkbox-inline">
+				      <input type="checkbox" value="javascript">JavaScript
+				    </label>
+				</div>
+				<div class="input-div">
+					<textarea name="description" rows="4" cols="33" style="margin-left: 100px;" placeholder="Write someting...."></textarea>
+				</div>
+				<div class="input-div">
+					<button type="button" class="btn btn-submit">Submit</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
