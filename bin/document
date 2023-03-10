@@ -1,0 +1,42 @@
+Java & OOP Concepts
+
+1) .class & .java files
+2) Static Method -> java main method is always static 
+3) What is Maven ?
+4)public class & class (public class name same as per file name)
+5) static variable memory allocation is one time and it will share among all the instance of the class.
+6) Objects, Anonymous Object , class , constructor 
+7) Static keyword, apply on variable , method , constructor, block, Nested class
+8) Why is the Java main method static?
+   Ans) It is because the object is not required to call a static method. If it were a non-static method, JVM creates an object first then call main() method that will lead the problem of extra memory allocation.
+9) Static block
+10) Inheritance -> Single, multilevel, hierarchical , multiple and hybrid
+11) Polymorphism -> method overloading & method overriding
+12) super keyword, final keyword, runtime Polymorphism, 
+13) Instance initializer block
+14) dynamic binding 
+15) instance of operator
+16)Abstract class
+
+
+
+
+
+Description why we put public and static before the main method 
+
+Main method indicates start of the execution point. So this method has to be accessible to outside world in order to execute that class.
+
+So you have to define main class public as it will allow user to access the class from outside.
+
+Now static,
+
+Static indiactes that the main method is not instance of any class but a global method. Now you need to understand what is a global method….
+
+A global method is something that has a single instance and do not belong to any particular class. A static method can be called without object i.e. , you need not to write object.main().
+
+Now main method is defined as static so that you can call it without any object. So you needn't to declare any object to call a class.
+
+
+
+Need to Ask Question 
+1) Covariant Return Type

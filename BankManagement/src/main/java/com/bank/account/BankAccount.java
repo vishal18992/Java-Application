@@ -7,10 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class BankAccount extends Bank {
-	BankAccountPin accpin;
-	
-	public BankAccount() {
-		super();
+	BankAccountPin accPin;
+
+	BankAccount() {
 	}
 	BankAccount(String firstName, String middleName, String lastName) {
 		super(firstName, middleName, lastName);
@@ -24,11 +23,10 @@ public class BankAccount extends Bank {
 		String middleName = sc.nextLine();
 		System.out.println("Enter Your Third Name: ");
 		String lastName = sc.nextLine();
-		Map<String, String> accountInformation = new HashMap<>();
+		Map<String, String> accountInformation = new HashMap<String, String>();
 		accountInformation.put("firstName", firstName);
 		accountInformation.put("middleName", middleName);
 		accountInformation.put("lastName", lastName);
-		sc.close();
 		System.out.println(accountInformation);
 		return accountInformation;
 	}
@@ -46,11 +44,25 @@ public class BankAccount extends Bank {
 	}
 
 	public String registerPin(String accountNumber, String pin) {
+		System.out.println("Called Register Pin");
 		if(!this.isAccountExist(accountNumber)) {
 			return "AccountNumber is not exist!!";
 		}
 		BankAccountPin newpin = new BankAccountPin(accountNumber, pin);
-		this.accpin = newpin;
-		return "Register Sucessfully!!!";
+		this.accPin = newpin;
+		return "Register Successfully!!!";
+	}
+	private boolean verifyPin(String pinNumber) {
+		boolean flag = false;
+		if(this.accPin.getPin().equals(pinNumber)){
+			flag = true;
+		}
+		return flag;
+	}
+	public void dipositMoney(float balance, String pinNumber) {
+		float bal =  this.getBalance() + balance;
+		if(this.verifyPin(pinNumber)) {
+			this.setBalance(bal);
+		}
 	}
 }

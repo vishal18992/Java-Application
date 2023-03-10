@@ -15,19 +15,18 @@ abstract class Bank {
 	private @Getter @Setter String middleName;
 	private @Getter @Setter String lastName;
 	private @Getter String accountType;
-	static @Getter final float BALANCE = 0f;
+	private @Getter @Setter float balance = 0f;
 	protected @Getter char accType;
 	private static AtomicLong sequenceNumber = new AtomicLong(000000000001L);
-	
-	Bank() {
-		
-	}
+
+	Bank() {}
 
 	Bank(String firstName, String middleName, String lastName) {
 		this.accountNumber = Bank.genereteAccountNumber();
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
+		System.out.println("Your Account Number is " + this.accountNumber);
 	}
 
 	protected static String genereteAccountNumber() {
@@ -49,13 +48,11 @@ abstract class Bank {
 		return flag;
 	}
 
-	public void dipositMoney() {
-	}
+	public void dipositMoney() {}
 
-	
 	private String registerPin(String accountNumber) {return null;}
 
 	public float viewBalance() {
-		return BALANCE;
+		return this.balance;
 	}
 }
