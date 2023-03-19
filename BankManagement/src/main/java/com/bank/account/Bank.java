@@ -1,6 +1,5 @@
 package com.bank.account;
 
-import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
@@ -8,31 +7,29 @@ import lombok.Getter;
 import lombok.Setter;
 
 abstract class Bank {
-	private static Logger LOGGER = Logger.getLogger("InfoLogging");
+	private static final Logger LOGGER = Logger.getLogger("InfoLogging");
 	private @Getter static final int ACCOUNT_NUMBER_LENGTH = 16;
 	private  @Setter @Getter String accountNumber;
 	private @Getter @Setter String firstName;
 	private @Getter @Setter String middleName;
 	private @Getter @Setter String lastName;
-	private @Getter String accountType;
+	protected @Getter String accountType;
 	private @Getter @Setter float balance = 0f;
 	protected @Getter char accType;
-	private static AtomicLong sequenceNumber = new AtomicLong(000000000001L);
-
-	Bank() {}
+	private static AtomicLong sequenceNumber = new AtomicLong(1200044400L);
 
 	Bank(String firstName, String middleName, String lastName) {
-		this.accountNumber = Bank.genereteAccountNumber();
+		this.accountNumber = Bank.generateAccountNumber();
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
 		System.out.println("Your Account Number is " + this.accountNumber);
 	}
 
-	protected static String genereteAccountNumber() {
+	protected static String generateAccountNumber() {
 		long code = sequenceNumber.getAndIncrement();
 		if (code == 999999999999L) {
-			sequenceNumber = new AtomicLong(000000000001L);
+			sequenceNumber = new AtomicLong(1200044400L);
 			code = sequenceNumber.getAndIncrement();
 		}
 		String logger_msg = "Generated Account Number!!" + code;
@@ -41,18 +38,15 @@ abstract class Bank {
 	}
 	
 	protected boolean isAccountExist(String accountNumber) {
-		boolean flag  = false;
-		if(this.accountNumber.equals(accountNumber)) {
-			flag = true;
-		}
-		return flag;
+		return this.accountNumber.equals(accountNumber);
 	}
 
-	public void dipositMoney() {}
+	public void depositMoney(float balance, String pinNumber) {}
+	public void withdrawMoney(float amount, String pinNumber) {}
 
-	private String registerPin(String accountNumber) {return null;}
+	private void registerPin(String accountNumber) {}
 
-	public float viewBalance() {
-		return this.balance;
+	public void viewBalance() {
+		System.out.println("Your Balance is " + this.balance);
 	}
 }

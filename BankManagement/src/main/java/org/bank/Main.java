@@ -7,6 +7,32 @@ import com.bank.account.*;
 public class Main {
 
 	public static HashMap<String,Object> object_by_account = new HashMap<String, Object>();
+
+	private static Object getBankAccount(String accountNumber){
+		BankAccount bank = null;
+		try {
+			bank = (BankAccount) object_by_account.get(accountNumber);
+		}catch (NullPointerException e){
+			System.out.println("Account number not found!!!.");
+		}
+		return bank;
+	}
+	public static String getAccount(){
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Your Account Number: ");
+		return  sc.nextLine();
+	}
+	public static String getPin() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Your Pin: ");
+		return sc.nextLine();
+	}
+
+	public static float getAmount(){
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Your Amount: ");
+		return sc.nextFloat();
+	}
 	public static boolean printMenu(int input){
 		switch(input) {
 			case 1:
@@ -19,40 +45,68 @@ public class Main {
 				object_by_account.put(savingAcc.getAccountNumber(), savingAcc);
 				break;
 			case 2:
-				Map<String, String> data1;
 				data = BankAccount.registerAccount();
-				String firstName1 = data.get("firstName");
-				String middleName1 = data.get("middleName");
-				String lastname1 = data.get("lastName");
-				BankAccount currAcc = new CurrentAccount(firstName1, middleName1, lastname1);
+				firstName = data.get("firstName");
+				middleName = data.get("middleName");
+				lastname = data.get("lastName");
+				BankAccount currAcc = new CurrentAccount(firstName, middleName, lastname);
 				object_by_account.put(currAcc.getAccountNumber(), currAcc);
 				break;
 			case 3:
 				String message = "";
-				Scanner sc1 = new Scanner(System.in);
-				System.out.println("Enter Your Account Number: ");
-				String accountNumber = sc1.nextLine();
-				System.out.println("Enter Your Pin: ");
-				String pin = sc1.nextLine();
-				if(!BankAccount.validatePin(pin)) {
+				String accountNumber = Main.getAccount();
+				String pinNumber = Main.getPin();
+				if(!BankAccount.validatePin(pinNumber)) {
 					message = "Pin is not valid!!!";
+					System.out.println(message);
+					break;
 				}
 				Object obj = object_by_account.get(accountNumber);
 				if(obj instanceof SavingAccount){
 					SavingAccount sv = (SavingAccount) obj;
-					message = sv.registerPin(accountNumber, pin);
+					message = sv.registerPin(accountNumber, pinNumber);
 				}
-				System.out.println(message);
 				break;
 			case 4:
-				Scanner sc2 = new Scanner(System.in);
-				System.out.println("Enter Your Account Number: ");
-				String accN = sc2.nextLine();
-				System.out.println("Enter Your Pin: ");
-				String pin2 = sc2.nextLine();
-				if(!BankAccount.validatePin(pin2)) {
-					message = "Pin is not valid!!!";
+				accountNumber = Main.getAccount();
+				pinNumber = Main.getPin();
+				if(!BankAccount.validatePin(pinNumber)) {
+					System.out.println("Your Pin is not valid");
+					break;
 				}
+				BankAccount bank;
+				bank = (BankAccount) Main.getBankAccount(accountNumber);
+				if (bank == null) {
+					break;
+				}
+				float amount = Main.getAmount();
+				bank.depositMoney(amount, pinNumber);
+				break;
+			case 5:
+				accountNumber = Main.getAccount();
+				pinNumber = Main.getPin();
+				if(!BankAccount.validatePin(pinNumber)) {
+					System.out.println("Your Pin is not valid");
+					break;
+				}
+				bank = (BankAccount) Main.getBankAccount(accountNumber);
+				if (bank == null) {
+					break;
+				}
+				amount = Main.getAmount();
+				bank.withdrawMoney(amount, pinNumber);
+				break;
+			case 6:
+				accountNumber = Main.getAccount();
+				pinNumber = Main.getPin();
+				bank = (BankAccount) Main.getBankAccount(accountNumber);
+				if (bank == null) {
+					break;
+				}
+				if(bank.verifyPin(pinNumber)){
+					bank.viewBalance(pinNumber);
+				}
+				break;
 		}
 		return true;
 	}
@@ -62,7 +116,7 @@ public class Main {
 		boolean flag = false;
 		do {
 			System.out.println("1) Register Saving Account\n2) Register Current Account\n" +
-					"3) Register PIN\n4) Deposit Money\n5) Withdraw Money\n0) Exit");
+					"3) Register PIN\n4) Deposit Money\n5) Withdraw Money\n6) View Balance\n0) Exit\nEnter your input: ");
 			if(!flag){
 				input = sc.nextInt();
 			}else{

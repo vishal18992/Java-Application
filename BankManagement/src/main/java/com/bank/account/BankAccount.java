@@ -1,20 +1,15 @@
 package com.bank.account;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Scanner;
 
-import lombok.Getter;
-import lombok.Setter;
 
 public class BankAccount extends Bank {
 	BankAccountPin accPin;
-
-	BankAccount() {
-	}
 	BankAccount(String firstName, String middleName, String lastName) {
 		super(firstName, middleName, lastName);
 	}
-
 	public static Map<String, String> registerAccount() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter Your First Name: ");
@@ -30,39 +25,40 @@ public class BankAccount extends Bank {
 		System.out.println(accountInformation);
 		return accountInformation;
 	}
-
 	protected void setAccType(char accType) {
 		this.accType = accType;
 	}
-
 	public static Boolean validatePin(String pin) {
-		Boolean falg = false;
-		if (pin != null && !pin.trim().isEmpty()) {
-			falg = true;
-		}
-		return falg;
+		return pin != null && !pin.trim().isEmpty();
 	}
-
 	public String registerPin(String accountNumber, String pin) {
 		System.out.println("Called Register Pin");
 		if(!this.isAccountExist(accountNumber)) {
 			return "AccountNumber is not exist!!";
 		}
-		BankAccountPin newpin = new BankAccountPin(accountNumber, pin);
-		this.accPin = newpin;
+		this.accPin = new BankAccountPin(accountNumber, pin);
 		return "Register Successfully!!!";
 	}
-	private boolean verifyPin(String pinNumber) {
-		boolean flag = false;
-		if(this.accPin.getPin().equals(pinNumber)){
-			flag = true;
-		}
-		return flag;
+	public boolean verifyPin(String pinNumber) {
+		return this.accPin.getPin().equals(pinNumber);
 	}
-	public void dipositMoney(float balance, String pinNumber) {
-		float bal =  this.getBalance() + balance;
+	public void depositMoney(float balance, String pinNumber) {
 		if(this.verifyPin(pinNumber)) {
+			float bal =  this.getBalance() + balance;
 			this.setBalance(bal);
 		}
 	}
+	public void viewBalance(String pinNumber) {
+		if(this.verifyPin(pinNumber)){
+			super.viewBalance();
+		}
+	}
+
+	public void withdrawMoney(float amount, String pinNumber){
+		if(this.verifyPin(pinNumber)) {
+			float balance =  this.getBalance() - amount;
+			this.setBalance(balance);
+		}
+	}
+
 }
