@@ -1,4 +1,5 @@
 package com.models;
+import com.base.Model;
 import com.main.Main;
 import com.models.EmployeeCategory;
 import com.opencsv.CSVWriter;
@@ -6,7 +7,7 @@ import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Employee implements Cloneable{
+public class Employee extends Model implements Cloneable{
     private int id;
     private EmployeeCategory category;
     private String description;
@@ -20,7 +21,7 @@ public class Employee implements Cloneable{
         this.type = type;
     }
 
-    Employee(EmployeeCategory category, String description, float amount, char type){
+    public Employee(EmployeeCategory category, String description, float amount, char type){
         this.category = category;
         this.description = description;
         this.amount = amount;

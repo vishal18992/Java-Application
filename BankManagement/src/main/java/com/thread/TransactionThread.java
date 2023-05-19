@@ -13,48 +13,49 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public class TransactionThread implements Runnable {
+    private float numline=0;
+    protected transient BufferedReader bufferedReader;
+    protected transient FileReader fileReader;
 
     private BlockingQueue<Employee> blockingQueue;
 
     public TransactionThread(BlockingQueue<Employee> blockingQueue) {
         this.blockingQueue = blockingQueue;
     }
+
     @Override
     public void run() {
         try {
             this.readTransactionCSV();
         } catch (Exception ex) {
             System.out.println("Read Transaction File Exception" + ex);
+        }finally {
+            try {
+                bufferedReader.close();
+                fileReader.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
 
     private void readTransactionCSV() throws IOException, CloneNotSupportedException {
-        File file = new File("/home/shiv/transaction/transaction.csv");
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        Integer counter = 0;
+        File file = new File("/home/vishal/transaction/transaction.csv");
+       fileReader = new FileReader(file);
+       bufferedReader = new BufferedReader(fileReader);
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             String[] columns = line.split(",");
             EmployeeCSVBean empBean = new EmployeeCSVBean(columns[0], columns[1], columns[2], columns[3], columns[4]);
             Employee employee = (Employee) empBean.clone(empBean);
-            System.out.println("Read Counter " + counter);
+            numline++;
             try {
                 this.blockingQueue.put(employee);
             }catch (InterruptedException ex) {
                 System.out.println("Blocking Queue Exception" + ex);
             }
-//            counter++;
-
-//            if(counter.equals(2)){
-//                try {
-//                    Thread.sleep(1000);
-//                }catch (InterruptedException ex) {
-//                    System.out.println("Read Transaction" + ex);
-//                }
-//                counter = 0;
-//            }
+            System.out.println("Read Counter " + numline);
         }
     }
 }

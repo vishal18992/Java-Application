@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.exception.AccountNotFoundException;
 import com.models.Employee;
@@ -18,6 +20,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import com.services.*;
+//import com.thread.Transaction;
 import com.thread.TransactionThread;
 
 import com.opencsv.CSVReader;
@@ -27,7 +30,7 @@ public class Main {
 
 	protected static String fileName = "bank-application.csv";
 	protected static String filePath = "/tmp/";
-	public static HashMap<String, Object> object_by_account = new HashMap<String, Object>();
+	public static HashMap<String, Object> object_by_account = new HashMap<String, Object>();s
 
 	private static Object getBankAccount(String accountNumber) throws NullPointerException {
 		BankAccount bank = null;
@@ -169,22 +172,17 @@ public class Main {
 				}
 				break;
 			case 7:
-				BlockingQueue<Employee> queue = new ArrayBlockingQueue<Employee>(1024);
+				BlockingQueue<Employee> queue = new ArrayBlockingQueue<Employee>(500);
+
 				TransactionThread r1 = new TransactionThread(queue);
-				TransactionWriterThread rw1 = new TransactionWriterThread(queue);
-				TransactionWriterThread rw2 = new TransactionWriterThread(queue);
-				Thread t1 = new Thread(r1);
-				Thread t2 = new Thread(rw1);
-				Thread t3 = new Thread(rw2);
-				t1.start();
-				t2.start();
-				t3.start();
-				try{
-					t2.join(100);
-//					t3.join(50);
-				}catch (InterruptedException ex){
-					System.out.println(ex);
-				};
+				new Thread(r1, "Read Transaction").start();
+
+				TransactionWriterThread normalizers = new TransactionWriterThread(queue);
+//				Thread t2 = new Thread(normalizers, "Write Transaction 1");
+				ExecutorService executor = Executors.newFixedThreadPool(3);
+				for (int i = 1; i <= 3; i++) {
+					executor.submit(normalizers);
+				}
 				break;
 		}
 		return true;

@@ -14,21 +14,21 @@ public class TransactionWriterThread implements Runnable{
     }
 
     private void writeCreditTransaction(Employee employee) {
-        TransactionFileWriter creditTran = new TransactionFileWriter("/home/shiv/", "credit.csv");
+        TransactionFileWriter creditTran = new TransactionFileWriter("/home/vishal/", "credit.csv");
         String[] record = employee.getEmployeeDetails();
-        creditTran.create(creditTran.getFilePath(), creditTran.getFileName(), record);
+        creditTran.createInFile(creditTran.getFilePath(), creditTran.getFileName(), record);
     }
 
     private void writeDebitTransaction(Employee employee) {
-        TransactionFileWriter debitTran = new TransactionFileWriter("/home/shiv/", "debit.csv");
+        TransactionFileWriter debitTran = new TransactionFileWriter("/home/vishal/", "debit.csv");
         String[] record = employee.getEmployeeDetails();
-        debitTran.create(debitTran.getFilePath(), debitTran.getFileName(), record);
+        debitTran.createInFile(debitTran.getFilePath(), debitTran.getFileName(), record);
     }
 
     private void writeErrorTransaction(Employee employee) {
-        TransactionFileWriter errorTran = new TransactionFileWriter("/home/shiv/", "error.csv");
+        TransactionFileWriter errorTran = new TransactionFileWriter("/home/vishal/", "error.csv");
         String[] record = employee.getEmployeeDetails();
-        errorTran.create(errorTran.getFilePath(), errorTran.getFileName(), record);
+        errorTran.createInFile(errorTran.getFilePath(), errorTran.getFileName(), record);
     }
 
     private void doSperateTransaction(Employee employee) {
@@ -42,17 +42,15 @@ public class TransactionWriterThread implements Runnable{
     }
     @Override
     public void run() {
-        while(true){
-            try {
-                Employee emp = this.blockingQueue.take();
-                System.out.println("Write Queue" + this.blockingQueue);
-                this.doSperateTransaction(emp);
-                try{Thread.sleep(100);}catch(InterruptedException e){System.out.println(e);}
-                if(this.blockingQueue.isEmpty()){
-                    break;
+        synchronized(blockingQueue) {
+            while (true) {
+                try {
+                    Employee emp = this.blockingQueue.take();
+                    System.out.println("Write Queue" + this.blockingQueue);
+                    this.doSperateTransaction(emp);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }
     }
