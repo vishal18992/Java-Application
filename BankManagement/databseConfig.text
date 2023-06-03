@@ -1,0 +1,11 @@
+
+
+create table bank_accounts (id INT unsigned NOT NULL AUTO_INCREMENT,accountNumber VARCHAR(20) NOT NULL,
+firstName VARCHAR(50),middleName VARCHAR(50),lastName VARCHAR(50),balance FLOAT(20,2),accType CHAR(4),PRIMARY KEY (id));
+
+ALTER TABLE bank_accounts ADD UNIQUE unique_index(accountNumber);
+
+
+CREATE TABLE bank_accounts_pin (id INT unsigned NOT NULL AUTO_INCREMENT, pin VARCHAR(40) NOT NULL, bank_account_id INT NOT NULL, PRIMARY KEY (id));
+
+

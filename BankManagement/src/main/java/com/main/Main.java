@@ -3,10 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -30,7 +27,7 @@ public class Main {
 
 	protected static String fileName = "bank-application.csv";
 	protected static String filePath = "/tmp/";
-	public static HashMap<String, Object> object_by_account = new HashMap<String, Object>();s
+	public static HashMap<String, Object> object_by_account = new HashMap<String, Object>();
 
 	private static Object getBankAccount(String accountNumber) throws NullPointerException {
 		BankAccount bank = null;
@@ -62,17 +59,16 @@ public class Main {
 			Object obj = set.getValue();
 			if (obj instanceof SavingAccount) {
 				SavingAccount sv = (SavingAccount) obj;
-				Main.create(sv.getValues());
+//				Main.create(sv.getValues());
 			}
 			if (obj instanceof CurrentAccount) {
 				CurrentAccount ca = (CurrentAccount) obj;
-				Main.create(ca.getValues());
+//				Main.create(ca.getValues());
 			}
 		}
 	}
 
 	public static void create(String[] values) {
-
 		String str = String.format("%s%s", Main.filePath, Main.fileName);
 		try {
 			CSVWriter writer = new CSVWriter(new FileWriter(str, true));
@@ -102,7 +98,8 @@ public class Main {
 				String middleName = data.get("middleName");
 				String lastname = data.get("lastName");
 				BankAccount savingAcc = new SavingAccount(firstName, middleName, lastname);
-				object_by_account.put(savingAcc.getAccountNumber(), savingAcc);
+				int newRecord  = savingAcc.create(savingAcc.getCreateQuery(), savingAcc.getValues());
+				System.out.println("New Record: " + newRecord);
 				break;
 			case 2:
 				data = BankAccount.registerAccount();

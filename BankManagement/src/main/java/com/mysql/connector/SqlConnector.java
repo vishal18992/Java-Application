@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 public class SqlConnector {
 
-    protected static String url = null;
+    protected static String url = "jdbc:mysql://localhost:3306";
 
-    protected static String databaseName = null;
-    protected static String userName = null;
-    protected static String password = null;
+    protected static String databaseName = "bankmanagement";
+    protected static String userName = "root";
+    protected static String password = "Password123#@!";
 
     public SqlConnector(){}
     public SqlConnector(String url, String databaseName, String userName, String password){
@@ -25,7 +25,7 @@ public class SqlConnector {
     }
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         String URL = this.getDriverUrl();
         Connection cn = DriverManager.getConnection(URL, SqlConnector.userName, SqlConnector.password);
         return cn;

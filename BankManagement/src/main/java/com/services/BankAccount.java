@@ -3,9 +3,10 @@ package com.services;
 import com.exception.AccountNotFoundException;
 import com.validation.BankAccountPin;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.*;
 
 
 public class BankAccount extends Bank {
@@ -65,15 +66,25 @@ public class BankAccount extends Bank {
 			this.setBalance(balance);
 		}
 	}
-	public String[] getValues(){
+	public ArrayList getValues(){
 		String pin = null;
 		if(this.accPin != null){
 			pin = this.getPinNumber();
 		}
-		String[] record = String.format("%s,%s,%s,%s,%s,%s,%s,%s", this.getId(),this.getAccountNumber(),
-				this.getFirstName(), this.getMiddleName() ,this.getLastName(),pin,
-				this.getBalance(), this.getAccType()).split(",");
+		ArrayList record = new ArrayList(8);
+		record.add(this.getId());
+		record.add(this.getAccountNumber());
+		record.add(this.getFirstName());
+		record.add(this.getMiddleName());
+		record.add(this.getLastName());
+//		record.add(pin);
+		record.add(this.getBalance());
+		record.add(this.getAccType());
 		return record;
 	}
 
+	public String getCreateQuery(){
+		String query = "INSERT INTO bank_accounts (accountNumber, firstName, middleName, lastName, balance, accType) VALUES(?,?,?,?,?,?);";
+		return query;
+	}
 }

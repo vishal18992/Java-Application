@@ -4,8 +4,10 @@ import com.opencsv.CSVWriter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.mysql.connector.SqlConnector;
@@ -47,6 +49,9 @@ public class Model extends SqlConnector{
             }catch (SQLException ex){}
         }
     }
+    public int create(String query, ArrayList params) throws SQLException, ClassNotFoundException{
+        return 0;
+    }
     public ArrayList read(String query) {
         ArrayList<ArrayList> list = new ArrayList();
         try {
@@ -65,7 +70,8 @@ public class Model extends SqlConnector{
             cn.close();
         }catch (SQLException | ClassNotFoundException ex) {
             System.out.println("Read Exception" + ex);
-        }     return list;
+        }
+        return list;
     }
 
     public int write(String query){

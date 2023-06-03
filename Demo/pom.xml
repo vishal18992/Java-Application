@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>Demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+</project>
+
+
+        package com.DeadLock;
+
+        import java.util.Arrays;
+
+        public class Demo {
+
+
+
+        public static void main(String[] args) {
+        int[] intArray = new int[]{ 1,2,3,4,5,5,6,7,8,9,10 };
+        boolean bb = true;
+
+        for (int i = 0; i < intArray.length; i++) {
+        int a = intArray[i];
+        System.out.println("first : " +a );
+
+        for (int j2 = i+1; j2 < intArray.length; j2++) {
+        int b = intArray[j2];
+        System.out.println(" second: " +b );
+        if(a==b) {
+        bb = false;
+
+        }
+
+        }
+        }
+
+        System.out.println(bb);
+
+
+        }
+        }
